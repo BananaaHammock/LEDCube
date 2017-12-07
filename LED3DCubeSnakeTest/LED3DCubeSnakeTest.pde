@@ -8,6 +8,7 @@ int[] SnakeVelocity = {1, 0};
 int SnakeTailSize = 3;
 boolean foodIsThere = false;
 int[] FoodPos = {0,0};
+int ActiveScreen = 0;
 
 void setup() {
   size(1280, 720, P3D);
@@ -17,15 +18,15 @@ void setup() {
   float fov = PI/3.0; 
   float cameraZ = (height/2.0) / tan(fov/2.0); 
   perspective(fov, float(width)/float(height), cameraZ/2.0, cameraZ*2.0); 
-  Screens[0] = new Screen(64, 64, "1.jpg");
-  Screens[1] = new Screen(64, 64, "2.jpg");
-  Screens[2] = new Screen(64, 64, "3.jpg");
-  Screens[3] = new Screen(64, 64, "4.jpg");
-  Screens[4] = new Screen(64, 64, "5.jpg");
-  Screens[5] = new Screen(64, 64, "6.jpg");
+  Screens[0] = new Screen(64, 64, "1.jpg", 4, 5, 1, 3);
+  Screens[1] = new Screen(64, 64, "2.jpg", 4, 5, 0, 0);
+  //Screens[2] = new Screen(64, 64, "3.jpg");
+  //Screens[3] = new Screen(64, 64, "4.jpg");
+  //Screens[4] = new Screen(64, 64, "5.jpg");
+  //Screens[5] = new Screen(64, 64, "6.jpg");
 
   //Screens[0].randomizeColors();
-  Screens[0].clearScreen();
+  //Screens[0].clearScreen();
   
 }
 
@@ -54,8 +55,8 @@ void draw() {
   if (frameCount%5 == 0) {
     //Screens[0].clearScreen();
     //Screens[0].setAllPixel(color(255,255,255));
-    Screens[0].clearScreen();
-    Screens[0].showDefaultImage();
+    Screens[ActiveScreen].clearScreen();
+    Screens[ActiveScreen].showDefaultImage();
     SnakePos[0] += SnakeVelocity[0];
     SnakePos[1] += SnakeVelocity[1];
     
@@ -75,6 +76,9 @@ void draw() {
     int[] tempPos = {SnakePos[0],SnakePos[1]};
     SnakeTail.add(tempPos);
   }
+  
+  //Set ActiveScreen
+  ActiveScreen = Screens[ActiveScreen].setActiveScreen(SnakePos[0], SnakePos[1], ActiveScreen);
   
   if(keyPressed){
     SnakeVelocity[0] = 0;
@@ -98,17 +102,17 @@ void draw() {
   for (int i = SnakeTail.size()-1; i > SnakeTail.size()-1-SnakeTailSize; i--)
   {
     if(i >= 0)
-      Screens[0].setPixel(SnakeTail.get(i)[0], SnakeTail.get(i)[1], SnakeColor);
+      Screens[ActiveScreen].setPixel(SnakeTail.get(i)[0], SnakeTail.get(i)[1], SnakeColor);
   }
   
   //Draw Foodpixel
-  Screens[0].setPixel(FoodPos[0],FoodPos[1],color(255,0,0));
+  Screens[ActiveScreen].setPixel(FoodPos[0],FoodPos[1],color(255,0,0));
 
   
   
 
   //Update Screen
-  Screens[0].update();
+  Screens[ActiveScreen].update();
 
   imageMode(CENTER);
   image(Screens[0].getHDImage(), 0, 0, 640, 640);

@@ -6,11 +6,13 @@ class Screen
   private PImage HDImage = new PImage();
   private PImage defaultImage;
   private String defaultImageName;
+  int[] Neighbour = new int[4];
+  int active = 0;
   
   //private color[][] pixelMatrix = new color[64][64];
-  private int EdgeNeighbours[] = new int[4];
-   
-  Screen(int X, int Y, String imgName){
+  //private int EdgeNeighbours[] = new int[4];
+  //Screen(int X, int Y, String imgName, Screen NeighbourTop, Screen NeighbourBottom, Screen NeighbourRight, Screen NeighbourLeft){
+  Screen(int X, int Y, String imgName, int NeighbourTop, int NeighbourBottom, int NeighbourRight, int NeighbourLeft){
     sizeX = X;
     sizeY = Y;
     defaultImageName = imgName;
@@ -18,6 +20,10 @@ class Screen
     image = loadImage(defaultImageName);
     HDImage = createImage(sizeX*10,sizeY*10,RGB);
     generateHDImage();
+    Neighbour[0] = NeighbourTop;
+    Neighbour[1] = NeighbourBottom;
+    Neighbour[2] = NeighbourRight;
+    Neighbour[3] = NeighbourLeft;
   }
   
   void randomizeColors(){
@@ -66,6 +72,20 @@ class Screen
     image.pixels[x+y*sizeX] = col;
     image.updatePixels();
     return true;
+  }
+  
+  public int setActiveScreen(int x, int y, int currentActive){
+    if (x >= sizeX){
+      active = Neighbour[2];
+      SnakePos[0] = 0;
+      return active;
+    }
+    else if (x < 0){
+      active = Neighbour[2];
+      SnakePos[0] = sizeX-1;
+      return active;
+    }
+    return currentActive;
   }
   
   public void clearScreen(){

@@ -11,13 +11,8 @@ class Screen
   
   //private color[][] pixelMatrix = new color[64][64];
   //private int EdgeNeighbours[] = new int[4];
-  //Screen(int X, int Y, String imgName, Screen NeighbourTop, Screen NeighbourBottom, Screen NeighbourRight, Screen NeighbourLeft){
-  void setup()
-  {
-    
-    Neighbours[2] = Screens[0];
-  }
-    Screen(int X, int Y, String imgName){
+
+  Screen(int X, int Y, String imgName){
     sizeX = X;
     sizeY = Y;
     defaultImageName = imgName;
@@ -27,11 +22,11 @@ class Screen
     generateHDImage();
   }
   
-  void setNeighbours(Screen NeighbourTop, Screen NeighbourBottom, Screen NeighbourRight, Screen NeighbourLeft)
+  void setNeighbours(Screen NeighbourTop, Screen NeighbourRight, Screen NeighbourBottom, Screen NeighbourLeft)
   {
     Neighbours[0] = NeighbourTop;
-    Neighbours[1] = NeighbourBottom;
-    Neighbours[2] = NeighbourRight;
+    Neighbours[1] = NeighbourRight;
+    Neighbours[2] = NeighbourBottom;
     Neighbours[3] = NeighbourLeft;
   }
   
@@ -98,16 +93,16 @@ class Screen
       return true;
     }
     else if (x >= sizeX){
-      return this.Neighbours[2].setPixel(x-sizeX, y, col);
+      return this.Neighbours[1].setPixel(x-sizeX, y, col);
     }
     else if (x < 0){
-      return this.Neighbours[3].setPixel(sizeX, y, col);
+      return this.Neighbours[3].setPixel(x+sizeX, y, col);
     }
     else if (y >= sizeY){
-      return this.Neighbours[1].setPixel(x, y-sizeY, col);
+      return this.Neighbours[2].setPixel(x, y-sizeY, col);
     }
     else if (y < 0){
-      return this.Neighbours[0].setPixel(x, sizeY, col);
+      return this.Neighbours[0].setPixel(x, y+sizeY, col);
     }
     return false;
   }

@@ -46,7 +46,7 @@ void draw() {
   rotateX(rotX);
 
   //Snake will happen here
-  if (frameCount%5 == 0) {
+  if (frameCount%3 == 0) {
     for (int i = 0; i < 6; i++){
       Screens[i].clearScreen();
       Screens[i].showDefaultImage();

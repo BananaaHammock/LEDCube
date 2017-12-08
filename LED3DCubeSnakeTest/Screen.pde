@@ -6,13 +6,18 @@ class Screen
   private PImage HDImage = new PImage();
   private PImage defaultImage;
   private String defaultImageName;
-  int[] Neighbour = new int[4];
+  Screen[] Neighbours = new Screen[4];
   int active = 0;
   
   //private color[][] pixelMatrix = new color[64][64];
   //private int EdgeNeighbours[] = new int[4];
   //Screen(int X, int Y, String imgName, Screen NeighbourTop, Screen NeighbourBottom, Screen NeighbourRight, Screen NeighbourLeft){
-  Screen(int X, int Y, String imgName, int NeighbourTop, int NeighbourBottom, int NeighbourRight, int NeighbourLeft){
+  void setup()
+  {
+    
+    Neighbours[2] = Screens[0];
+  }
+    Screen(int X, int Y, String imgName){
     sizeX = X;
     sizeY = Y;
     defaultImageName = imgName;
@@ -20,10 +25,14 @@ class Screen
     image = loadImage(defaultImageName);
     HDImage = createImage(sizeX*10,sizeY*10,RGB);
     generateHDImage();
-    Neighbour[0] = NeighbourTop;
-    Neighbour[1] = NeighbourBottom;
-    Neighbour[2] = NeighbourRight;
-    Neighbour[3] = NeighbourLeft;
+  }
+  
+  void setNeighbours(Screen NeighbourTop, Screen NeighbourBottom, Screen NeighbourRight, Screen NeighbourLeft)
+  {
+    Neighbours[0] = NeighbourTop;
+    Neighbours[1] = NeighbourBottom;
+    Neighbours[2] = NeighbourRight;
+    Neighbours[3] = NeighbourLeft;
   }
   
   void randomizeColors(){
@@ -66,26 +75,25 @@ class Screen
   }
   
   public boolean setPixel(int x, int y, color col){
-    if(x >= sizeX || y >= sizeY || x < 0 || y < 0) 
-      return false;
+    if(x < sizeX && y < sizeY && x >= 0 && y >= 0){
     image.loadPixels();
     image.pixels[x+y*sizeX] = col;
     image.updatePixels();
     return true;
-  }
-  
-  public int setActiveScreen(int x, int y, int currentActive){
-    if (x >= sizeX){
-      active = Neighbour[2];
-      SnakePos[0] = 0;
-      return active;
+    }
+    else if (x >= sizeX){
+      return this.Neighbours[2].setPixel(x-sizeX, y, col);
     }
     else if (x < 0){
-      active = Neighbour[2];
-      SnakePos[0] = sizeX-1;
-      return active;
+      return this.Neighbours[3].setPixel(sizeX, y, col);
     }
-    return currentActive;
+    else if (y >= sizeY){
+      return this.Neighbours[1].setPixel(x, y-sizeY, col);
+    }
+    else if (y < 0){
+      return this.Neighbours[0].setPixel(x, sizeY, col);
+    }
+    return false;
   }
   
   public void clearScreen(){

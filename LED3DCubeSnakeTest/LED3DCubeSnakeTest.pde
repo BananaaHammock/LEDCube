@@ -24,14 +24,12 @@ void setup() {
   Screens[4] = new Screen(64, 64, "5.jpg");
   Screens[5] = new Screen(64, 64, "6.jpg");
 
-  Screens[0].setNeighbours(Screens[4], Screens[5], Screens[1], Screens[3]);
-  Screens[1].setNeighbours(Screens[1], Screens[1], Screens[2], Screens[0]);
-  Screens[2].setNeighbours(Screens[2], Screens[2], Screens[3], Screens[1]);
-  Screens[3].setNeighbours(Screens[3], Screens[3], Screens[0], Screens[3]);
-  Screens[4].setNeighbours(Screens[5], Screens[0], Screens[4], Screens[4]);
-  Screens[5].setNeighbours(Screens[0], Screens[4], Screens[5], Screens[5]);
-  //Screens[0].randomizeColors();
-  //Screens[0].clearScreen();
+  Screens[0].setNeighbours(Screens[0], Screens[1], Screens[0], Screens[1]);
+  Screens[1].setNeighbours(Screens[1], Screens[0], Screens[1], Screens[0]);
+  //Screens[2].setNeighbours(Screens[2], Screens[2], Screens[3], Screens[1]);
+  //Screens[3].setNeighbours(Screens[3], Screens[3], Screens[0], Screens[3]);
+  //Screens[4].setNeighbours(Screens[5], Screens[0], Screens[4], Screens[4]);
+  //Screens[5].setNeighbours(Screens[0], Screens[4], Screens[5], Screens[5]);
   
 }
 
@@ -43,27 +41,17 @@ void draw() {
   if (mousePressed) {
     rotX = mouseY*0.01;
     rotY = mouseX*0.01;
-  } else {
-    //rotY += 0.01;
-  }
+  } 
   rotateY(rotY);
   rotateX(rotX);
 
-  //if (keyPressed == true) {
-  //  Screens[0].clearScreen();
-  //}else{
-  //  Screens[0].randomizeColors();
-  //}
-
-
   //Snake will happen here
   if (frameCount%5 == 0) {
-    //Screens[0].clearScreen();
-    //Screens[0].setAllPixel(color(255,255,255));
     for (int i = 0; i < 6; i++){
-    Screens[i].clearScreen();
-    //Screens[i].showDefaultImage();
+      Screens[i].clearScreen();
+      Screens[i].showDefaultImage();
     }
+    
     SnakePos[0] += SnakeVelocity[0];
     SnakePos[1] += SnakeVelocity[1];
     
@@ -86,34 +74,8 @@ void draw() {
   
   
   if(keyPressed){
-    //SnakeVelocity[0] = 0;
-    //SnakeVelocity[1] = 0;
-    switch(keyCode){
-      case UP:
-        if (SnakeVelocity[1] != 1 ){
-          SnakeVelocity[1] = -1;
-          SnakeVelocity[0] = 0;
-        }
-          break;
-      case DOWN:
-        if (SnakeVelocity[1] != -1){
-          SnakeVelocity[1] = 1;
-          SnakeVelocity[0] = 0;
-        }
-          break;
-      case LEFT:
-        if (SnakeVelocity[0] != 1){
-          SnakeVelocity[0] = -1;
-          SnakeVelocity[1] = 0;
-        }
-          break;
-      case RIGHT:
-        if (SnakeVelocity[0] != -1){
-          SnakeVelocity[0] = 1;
-          SnakeVelocity[1] = 0;
-        }
-        break;
-    }
+    //moved to function keyPressed() below
+    
   }
 
   for (int i = SnakeTail.size()-1; i > SnakeTail.size()-1-SnakeTailSize; i--)
@@ -129,19 +91,48 @@ void draw() {
   
 
   //Update Screen
-  for (int i = 0; i < 6; i++)
+  //for (int i = 0; i < 6; i++)
   //Screens[i].update();
 
   imageMode(CENTER);
   image(Screens[0].getHDImage(), 0, 0, 640, 640);
   translate(640,0,0);
   image(Screens[1].getHDImage(), 0, 0, 640, 640);
-  translate(640,0,0);
-  image(Screens[2].getHDImage(), 0, 0, 640, 640);
-  translate(-3*640,0,0);
-  image(Screens[3].getHDImage(), 0, 0, 640, 640);
-  translate(640,-640,0);
-  image(Screens[4].getHDImage(), 0, 0, 640, 640);
-  translate(0,2*640,0);
-  image(Screens[5].getHDImage(), 0, 0, 640, 640);
+  //translate(640,0,0);
+  //image(Screens[2].getHDImage(), 0, 0, 640, 640);
+  //translate(-3*640,0,0);
+  //image(Screens[3].getHDImage(), 0, 0, 640, 640);
+  //translate(640,-640,0);
+  //image(Screens[4].getHDImage(), 0, 0, 640, 640);
+  //translate(0,2*640,0);
+  //image(Screens[5].getHDImage(), 0, 0, 640, 640);
+}
+
+void keyPressed() {
+  switch(keyCode){
+    case UP:
+      if (SnakeVelocity[1] != 1 ){
+        SnakeVelocity[1] = -1;
+        SnakeVelocity[0] = 0;
+      }
+        break;
+    case DOWN:
+      if (SnakeVelocity[1] != -1){
+        SnakeVelocity[1] = 1;
+        SnakeVelocity[0] = 0;
+      }
+        break;
+    case LEFT:
+      if (SnakeVelocity[0] != 1){
+        SnakeVelocity[0] = -1;
+        SnakeVelocity[1] = 0;
+      }
+        break;
+    case RIGHT:
+      if (SnakeVelocity[0] != -1){
+        SnakeVelocity[0] = 1;
+        SnakeVelocity[1] = 0;
+      }
+      break;
+  }
 }

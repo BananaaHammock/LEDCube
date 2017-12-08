@@ -74,7 +74,7 @@ class Screen
     HDImage.loadPixels();
     for(int k = x*10; k < x*10+10; k++){
       for(int l = y*10; l < y*10+10; l++){
-        int locHD = l + k*(sizeX*10);
+        int locHD = k + l*(sizeX*10);
         if(l%10 == 0 || l%10 == 9 || k%10 == 0 || k%10 == 9){
           HDImage.pixels[locHD] = color(0,0,0);
         }else{

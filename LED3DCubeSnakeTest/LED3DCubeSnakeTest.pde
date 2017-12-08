@@ -24,18 +24,18 @@ void setup() {
   Screens[4] = new Screen(64, 64, "5.jpg");
   Screens[5] = new Screen(64, 64, "6.jpg");
 
-  Screens[0].setNeighbours(Screens[0], Screens[1], Screens[0], Screens[1]);
-  Screens[1].setNeighbours(Screens[1], Screens[0], Screens[1], Screens[0]);
-  //Screens[2].setNeighbours(Screens[2], Screens[2], Screens[3], Screens[1]);
-  //Screens[3].setNeighbours(Screens[3], Screens[3], Screens[0], Screens[3]);
-  //Screens[4].setNeighbours(Screens[5], Screens[0], Screens[4], Screens[4]);
-  //Screens[5].setNeighbours(Screens[0], Screens[4], Screens[5], Screens[5]);
+  Screens[0].setNeighbours(Screens[4], Screens[1], Screens[5], Screens[3]);
+  Screens[1].setNeighbours(Screens[1], Screens[2], Screens[1], Screens[0]);
+  Screens[2].setNeighbours(Screens[2], Screens[3], Screens[2], Screens[1]);
+  Screens[3].setNeighbours(Screens[3], Screens[0], Screens[3], Screens[2]);
+  Screens[4].setNeighbours(Screens[5], Screens[4], Screens[0], Screens[4]);
+  Screens[5].setNeighbours(Screens[0], Screens[5], Screens[4], Screens[5]);
   
 }
 
 void draw() {
-  background(20);
-  lights();
+  background(40);
+  //lights();
   //camera(mouseX*2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   translate(width/2, height/2, 0);
   if (mousePressed) {
@@ -98,14 +98,14 @@ void draw() {
   image(Screens[0].getHDImage(), 0, 0, 640, 640);
   translate(640,0,0);
   image(Screens[1].getHDImage(), 0, 0, 640, 640);
-  //translate(640,0,0);
-  //image(Screens[2].getHDImage(), 0, 0, 640, 640);
-  //translate(-3*640,0,0);
-  //image(Screens[3].getHDImage(), 0, 0, 640, 640);
-  //translate(640,-640,0);
-  //image(Screens[4].getHDImage(), 0, 0, 640, 640);
-  //translate(0,2*640,0);
-  //image(Screens[5].getHDImage(), 0, 0, 640, 640);
+  translate(640,0,0);
+  image(Screens[2].getHDImage(), 0, 0, 640, 640);
+  translate(-3*640,0,0);
+  image(Screens[3].getHDImage(), 0, 0, 640, 640);
+  translate(640,-640,0);
+  image(Screens[4].getHDImage(), 0, 0, 640, 640);
+  translate(0,2*640,0);
+  image(Screens[5].getHDImage(), 0, 0, 640, 640);
 }
 
 void keyPressed() {

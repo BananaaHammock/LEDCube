@@ -8,7 +8,8 @@ class Screen
   private String defaultImageName;
   
   //private color[][] pixelMatrix = new color[64][64];
-  private int EdgeNeighbours[] = new int[4];
+  //Screen Neighbours, 0:top 1:right 2:bottom 3:left
+  private Screen EdgeNeighbours[] = new Screen[4];
    
   Screen(int X, int Y, String imgName){
     sizeX = X;
@@ -18,6 +19,13 @@ class Screen
     image = loadImage(defaultImageName);
     HDImage = createImage(sizeX*10,sizeY*10,RGB);
     generateHDImage();
+  }
+  
+  public void setNeighbours(Screen Scr0, Screen Scr1, Screen Scr2, Screen Scr3){
+    EdgeNeighbours[0] = Scr0;
+    EdgeNeighbours[1] = Scr1;
+    EdgeNeighbours[2] = Scr2;
+    EdgeNeighbours[3] = Scr3;
   }
   
   void randomizeColors(){
@@ -60,12 +68,21 @@ class Screen
   }
   
   public boolean setPixel(int x, int y, color col){
-    if(x >= sizeX || y >= sizeY || x < 0 || y < 0) 
-      return false;
-    image.loadPixels();
-    image.pixels[x+y*sizeX] = col;
-    image.updatePixels();
-    return true;
+    if(x < sizeX && y < sizeY && x >= 0 && y >= 0){ //within this display range
+      image.loadPixels();
+      image.pixels[x+y*sizeX] = col;
+      image.updatePixels();
+      return true;
+    }else if(x >= sizeX){ //right edge (1)
+      if(EdgeNeighbours[1] == null) 
+        return false;
+      return EdgeNeighbours[1].setPixel(x-sizeX,y,col); //vertical connection
+    }else if(x < 0){ //left edge (3)
+      if(EdgeNeighbours[3] == null) 
+        return false;
+      return EdgeNeighbours[3].setPixel(x+sizeX,y,col); //vertical connection
+    }
+    return false; 
   }
   
   public void clearScreen(){

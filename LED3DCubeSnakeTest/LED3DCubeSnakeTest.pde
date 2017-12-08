@@ -23,6 +23,9 @@ void setup() {
   Screens[3] = new Screen(64, 64, "4.jpg");
   Screens[4] = new Screen(64, 64, "5.jpg");
   Screens[5] = new Screen(64, 64, "6.jpg");
+  
+  Screens[0].setNeighbours(null,Screens[1],null,Screens[1]);
+  Screens[1].setNeighbours(null,Screens[0],null,Screens[0]);
 
   //Screens[0].randomizeColors();
   Screens[0].clearScreen();
@@ -54,13 +57,15 @@ void draw() {
   if (frameCount%5 == 0) {
     //Screens[0].clearScreen();
     //Screens[0].setAllPixel(color(255,255,255));
-    Screens[0].clearScreen();
-    Screens[0].showDefaultImage();
+    for(int i = 0; i < 2; i++){
+      Screens[i].clearScreen();
+      Screens[i].showDefaultImage();
+    }
+
     SnakePos[0] += SnakeVelocity[0];
     SnakePos[1] += SnakeVelocity[1];
     
     if(SnakePos[0] == FoodPos[0] && SnakePos[1] == FoodPos[1]){
-      //eat
       foodIsThere = false;
       SnakeTailSize++;
     }
@@ -107,8 +112,10 @@ void draw() {
   
   
 
-  //Update Screen
-  Screens[0].update();
+  //Update Screens
+    for(int i = 0; i < 2; i++){
+      Screens[i].update();
+    }
 
   imageMode(CENTER);
   image(Screens[0].getHDImage(), 0, 0, 640, 640);

@@ -5,9 +5,11 @@ color SnakeColor = color(0, 255, 0);
 int[] SnakePos = {32, 32};
 ArrayList <int[]> SnakeTail = new ArrayList <int[]>();
 int[] SnakeVelocity = {1, 0};
-int SnakeTailSize = 3;
+int SnakeTailSize = 31;
 boolean foodIsThere = false;
 int[] FoodPos = {0,0};
+int HitboxTest = 0;
+int TestRandomFoodScreen = 0;
 
 void setup() {
   size(1280, 720, P3D);
@@ -65,6 +67,7 @@ void draw() {
     if(!foodIsThere){
       FoodPos[0] = int(random(0,64));
       FoodPos[1] = int(random(0,64));
+      TestRandomFoodScreen = int(random(0,5));
       foodIsThere = true;
     }
     
@@ -77,15 +80,25 @@ void draw() {
     //moved to function keyPressed() below
     
   }
-
+  SnakeColor = color(random(255), random(255), random(0));
   for (int i = SnakeTail.size()-1; i > SnakeTail.size()-1-SnakeTailSize; i--)
   {
-    if(i >= 0)
+    if(i >= 0){
       Screens[0].setPixel(SnakeTail.get(i)[0], SnakeTail.get(i)[1], SnakeColor);
+      if (i < SnakeTail.size()-1){
+        if (SnakeTail.get(i)[0] == SnakePos[0] && SnakeTail.get(i)[1] == SnakePos[1]){
+          SnakePos[0] = 32;
+          SnakePos[1] = 32;
+          SnakeTailSize = 3;
+          println("HIT!", HitboxTest); HitboxTest++;
+          delay(250);
+        }
+      }
+    }
   }
   
   //Draw Foodpixel
-  Screens[0].setPixel(FoodPos[0],FoodPos[1],color(255,0,0));
+  Screens[TestRandomFoodScreen].setPixel(FoodPos[0],FoodPos[1],color(255,0,0));
 
   
   

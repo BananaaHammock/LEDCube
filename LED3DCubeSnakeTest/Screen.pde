@@ -70,16 +70,32 @@ class Screen
     HDImage.updatePixels();
   }
   
+  private void setHDPixel(int x, int y, color col){
+    HDImage.loadPixels();
+    for(int k = x*10; k < x*10+10; k++){
+      for(int l = y*10; l < y*10+10; l++){
+        int locHD = l + k*(sizeX*10);
+        if(l%10 == 0 || l%10 == 9 || k%10 == 0 || k%10 == 9){
+          HDImage.pixels[locHD] = color(0,0,0);
+        }else{
+          HDImage.pixels[locHD] = col;
+        }
+      }
+    }
+    HDImage.updatePixels();
+  }
+  
   public color getPixel(int x, int y){
     return 1;
   }
   
   public boolean setPixel(int x, int y, color col){
     if(x < sizeX && y < sizeY && x >= 0 && y >= 0){
-    image.loadPixels();
-    image.pixels[x+y*sizeX] = col;
-    image.updatePixels();
-    return true;
+      image.loadPixels();
+      image.pixels[x+y*sizeX] = col;
+      image.updatePixels();
+      setHDPixel(x,y,col);
+      return true;
     }
     else if (x >= sizeX){
       return this.Neighbours[2].setPixel(x-sizeX, y, col);

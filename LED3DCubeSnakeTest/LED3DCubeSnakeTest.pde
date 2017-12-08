@@ -62,7 +62,7 @@ void draw() {
     //Screens[0].setAllPixel(color(255,255,255));
     for (int i = 0; i < 6; i++){
     Screens[i].clearScreen();
-    Screens[i].showDefaultImage();
+    //Screens[i].showDefaultImage();
     }
     SnakePos[0] += SnakeVelocity[0];
     SnakePos[1] += SnakeVelocity[1];
@@ -130,7 +130,7 @@ void draw() {
 
   //Update Screen
   for (int i = 0; i < 6; i++)
-  Screens[i].update();
+  //Screens[i].update();
 
   imageMode(CENTER);
   image(Screens[0].getHDImage(), 0, 0, 640, 640);

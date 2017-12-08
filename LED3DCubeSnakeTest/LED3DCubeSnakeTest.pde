@@ -81,22 +81,35 @@ void draw() {
   ActiveScreen = Screens[ActiveScreen].setActiveScreen(SnakePos[0], SnakePos[1], ActiveScreen);
   
   if(keyPressed){
-    SnakeVelocity[0] = 0;
-    SnakeVelocity[1] = 0;
+    //SnakeVelocity[0] = 0;
+    //SnakeVelocity[1] = 0;
     switch(keyCode){
       case UP:
-        SnakeVelocity[1] = -1;
-        break;
+        if (SnakeVelocity[1] != 1 ){
+          SnakeVelocity[1] = -1;
+          SnakeVelocity[0] = 0;
+        }
+          break;
       case DOWN:
-        SnakeVelocity[1] = 1;
-        break;
+        if (SnakeVelocity[1] != -1){
+          SnakeVelocity[1] = 1;
+          SnakeVelocity[0] = 0;
+        }
+          break;
       case LEFT:
-        SnakeVelocity[0] = -1;
-        break;
+        if (SnakeVelocity[0] != 1){
+          SnakeVelocity[0] = -1;
+          SnakeVelocity[1] = 0;
+        }
+          break;
       case RIGHT:
-        SnakeVelocity[0] = 1;
+        if (SnakeVelocity[0] != -1){
+          SnakeVelocity[0] = 1;
+          SnakeVelocity[1] = 0;
+        }
         break;
     }
+    println(SnakeVelocity[0],"--",SnakeVelocity[1],"\n");
   }
 
   for (int i = SnakeTail.size()-1; i > SnakeTail.size()-1-SnakeTailSize; i--)
